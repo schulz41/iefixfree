@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/style.css">
+		<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,700' rel='stylesheet'>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet'>
+		<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet'>
+		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<title>Document</title>
+	</head>
+	<body>
+		<div class="wrap page">
+			<header class="header">
+				<h1 class="logo"><a href="#"><span>ie</span><em>fix</em><span>free</span></a></h1>
+
+				<ul class="header-menu">
+					<li><a href="#" class="header-menu-active">home</a></li>
+					<li><a href="#">about</a></li>
+					<li><a href="#">github</a></li>
+					<li><a href="#">development</a></li>
+					<li><a href="#">contact</a></li>
+				</ul>
+			</header>
+
+			<div class="content">
+				<p class="about-caption">
+					Here you can generate CSS and JavaScript 'hacks' that will fix the bugs in IE6-8 browser.<br>
+					You can see the list of the bugs that will be fixed <a href="#">here.</a><br><br>
+					Just put your css and html files below and everything will be fine :)<br><br>
+				</p>
+				<div id="input-field">
+					<span id="files-caption">(you can select multiple files)</span>
+					<div class="input-wrap" id="file-input">
+						<div class="input-caption button">Browse</div>
+						<input type="file" id="files" multiple>
+					</div>
+
+					<p class="buttons">
+						<button id="back" class="button" disabled><span>Back</span></button>
+						<button id="ok" class="button"><span>Continue</span></button>
+					</p>
+				</div><!-- inputs-field -->
+
+				<div class="file-name-section">
+					<ol id="css-file-name-list"></ol>
+					<h2>Uploaded css files:</h2>
+				</div><!-- file-name-section -->
+
+				<div class="file-name-section">
+					<ol id="html-file-name-list"></ol>
+					<h2>Uploaded html files:</h2>
+				</div><!-- file-name-section -->
+
+				<div class="error-log-wrap">
+					<ul id="error-log">
+						
+					</ul>
+				</div><!-- error-log -->
+
+				<form id="custom-form">
+					<h2>Settings:</h2>
+					<p>(if you're not sure just click 'continue' )</p>
+					<fieldset>
+						<legend>Global:</legend>
+
+						<input type="checkbox" id="i1" hidden checked>
+						<label for="i1">
+							<span>
+								Use JavaScript?
+								<em class="form-help" data-title="JavaScript allows to use CSS3 selectors and also fix some bugs.">?</em>
+							</span>
+						</label>
+
+						<input type="checkbox" id="i4" hidden>
+						<label for="i4" class="inner-input">
+							<span>
+								Your site uses jQuery?
+							</span>
+						</label>
+
+						<input type="checkbox" id="i8" hidden>
+						<label for="i8" class="inner-input">
+							<span>
+								Add <code><i>border-radius</i></code>
+								<em class="form-note" data-title="It can slow down your site">!</em>
+							</span>
+						</label>
+
+						<input type="checkbox" id="i9" hidden>
+						<label for="i9" class="inner-input">
+							<span>
+								Add <code><i>box-shadow</i></code>
+								<em class="form-note" data-title="It can slow down your site">!</em>
+							</span>
+						</label>
+
+						<input type="checkbox" id="i7" hidden>
+						<label for="i7">
+							<span>
+								Compress code
+							</span>
+						</label>
+					</fieldset>
+
+					<fieldset>
+						<legend>Browsers:</legend>
+
+						<input type="checkbox" id="i3" hidden checked>
+						<label for="i3">
+							<span>
+								IE6
+							</span>
+						</label>
+
+						<input type="checkbox" id="i2" hidden checked>
+						<label for="i2" class="inner-input">
+							<span>
+								Use pngfix
+								<em class="form-help" data-title="Adds near-native PNG support with alpha opacity.">?</em>
+							</span>
+						</label>
+
+						<input type="checkbox" id="i5" hidden checked>
+						<label for="i5">
+							<span>
+								IE7
+							</span>
+						</label>
+
+						<input type="checkbox" id="i6" hidden checked>
+						<label for="i6">
+							<span>
+								IE8
+							</span>
+						</label>
+					</fieldset>
+
+					<fieldset>
+						<legend>Other:</legend>
+
+						<input type="radio" id="i10" hidden checked>
+						<label for="i10">
+							<span>
+								<code class="html-code">&lt;script&gt;</code> at the top
+							</span>
+						</label>
+
+						<input type="radio" id="i11" hidden>
+						<label for="i11">
+							<span>
+								<code class="html-code">&lt;script&gt;</code> at the bottom
+							</span>
+						</label>
+					</fieldset>
+				</form>
+			</div><!-- content -->
+			
+			<div class="spacer"></div>
+		</div><!-- wrap, page -->
+
+		<footer class="footer">
+			<div class="wrap">
+				<div>
+					<p class="footer-logo"><a href="#">iefixfree</a></p>
+					<p class="copy">2013 © <a href="#">Martin Schulz</a></p>
+				</div>
+			</div>
+		</footer>
+		<script src="js/jszip.js"></script>
+		<script src="js/functions.js"></script>
+		<script src="js/form.js"></script>
+		<script src="js/ParserCSS.js"></script>
+		<script src="js/FileHandler.js"></script>
+		<script src="js/ieFunctions.js"></script>
+		<script src="js/GeneratorCSS.js"></script>
+		<script src="js/GeneratorJS.js"></script>
+		<script src="js/Corrector.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>
