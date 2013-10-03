@@ -13,13 +13,18 @@ var FileHandler = function () {
   var html = [],
     css = [],
 
-    htmlFileList = $('html-file-name-list'),
-    cssFileList = $('css-file-name-list'),
-    okButton = $('ok'),
-    back = $('back'),
+    $htmlFileList = $('html-file-name-list'),
+    $cssFileList = $('css-file-name-list'),
+    $okButton = $('ok'),
+    $back = $('back'),
+    $input = $('files'),
 
     getExtension = function (filename) {
       return filename.split('.').pop().toLowerCase();
+    },
+
+    clearInput = function () {
+      $input.value = '';
     },
 
     /**
@@ -30,12 +35,13 @@ var FileHandler = function () {
       // number of the element which is clicked
       var n = index(this.parentNode),
         // li element
-        node = htmlFileList.children[n];
+        node = $htmlFileList.children[n];
 
       // remove from an array
       html.splice(n, 1);
       // remove from html
       node.parentNode.removeChild(node);
+      clearInput();
     },
 
     /**
@@ -46,17 +52,18 @@ var FileHandler = function () {
       // number of the element which is clicked
       var n = index(this.parentNode),
         // li element
-        node = cssFileList.children[n];
+        node = $cssFileList.children[n];
 
       // remove from array
       css.splice(n, 1);
       // remove from html
       node.parentNode.removeChild(node);
+      clearInput();
 
       // if there's no css file then we can't continue
       if (!css.length) {
-        okButton.style.display = 'none';
-        back.style.display = 'none';
+        $okButton.style.display = 'none';
+        $back.style.display = 'none';
       }
     },
 
@@ -82,10 +89,10 @@ var FileHandler = function () {
 
       if (type === 'html') {
         span.addEventListener('click', removeHtmlFile, false);
-        htmlFileList.appendChild(li);
+        $htmlFileList.appendChild(li);
       } else {
         span.addEventListener('click', removeCssFile, false);
-        cssFileList.appendChild(li);
+        $cssFileList.appendChild(li);
       }
     },
 
@@ -104,7 +111,7 @@ var FileHandler = function () {
     /**
      * add html or css file to the corresponding array
      * @private
-     * @param file file from input
+     * @param file file from $input
      */
     readSingleFile = function (file, isLast) {
       var name = file.name,
@@ -156,8 +163,8 @@ var FileHandler = function () {
 
         // if there's at least one css file and all files uploaded, then we can continue
         if (css.length && isLast) {
-          okButton.style.display = 'inline-block';
-          back.style.display = 'inline-block';
+          $okButton.style.display = 'inline-block';
+          $back.style.display = 'inline-block';
         }
       };
     },
@@ -173,11 +180,11 @@ var FileHandler = function () {
 
       // can't continue while loading files
       if(len && !css.length) {
-        okButton.style.display = 'none';
-        back.style.display = 'none';
+        $okButton.style.display = 'none';
+        $back.style.display = 'none';
       }
 
-      // for each file from input
+      // for each file from $input
       for (i = 0; i < len; i++) {
         readSingleFile(files[i], i === len - 1);
       }
@@ -216,5 +223,5 @@ var FileHandler = function () {
     return {html: html, css: css};
   };
 
-  $('files').addEventListener('change', handleFileSelect, false);
+  $input.addEventListener('change', handleFileSelect, false);
 };
