@@ -7,7 +7,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet'>
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet'>
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <title>Document</title>
+    <title>iefixfree</title>
   </head>
   <body>
     <div class="wrap page">
@@ -29,18 +29,19 @@
           You can see the list of the bugs that will be fixed <a href="#">here.</a><br><br>
           Just put your css and html files below and everything will be fine :)<br><br>
         </p>
-        <div id="input-field">
+
+        <form onsubmit="return false;" id="input-field">
           <span id="files-caption">(you can select multiple files)</span>
           <div class="input-wrap" id="file-input">
             <div class="input-caption button">Browse</div>
             <input type="file" id="files" multiple>
-          </div>
+          </div><!-- input-wrap -->
 
           <p class="buttons">
-            <button id="back" class="button" disabled><span>Back</span></button>
+            <button id="back" type="button" class="button" disabled><span>Back</span></button>
             <button id="ok" class="button"><span>Continue</span></button>
           </p>
-        </div><!-- inputs-field -->
+        </form><!-- inputs-field -->
 
         <div class="file-name-section">
           <ol id="css-file-name-list"></ol>
@@ -58,7 +59,7 @@
           </ul>
         </div><!-- error-log -->
 
-        <form id="custom-form">
+        <form onsubmit="return false;" id="custom-form">
           <h2>Settings:</h2>
           <p>(if you're not sure just click 'continue' )</p>
           <fieldset>

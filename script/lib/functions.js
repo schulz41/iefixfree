@@ -37,21 +37,7 @@ var $ = function(id) {
 			e = e.parentNode;
 		}
 
-		return path.toLowerCase();
-	},
-
-	compress = function(code) {
-		var i,
-			len = code.length,
-			result = '';
-
-		for(i = 0; i < len; i++) {
-			if(code[i].match(/\s/)) {
-				this.result += code[i];
-			}
-		}
-
-		return result;
+		return path.toLowerCase().slice(1);
 	},
 
 	index = function(e) {

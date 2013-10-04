@@ -82,7 +82,6 @@ var GeneratorJS = function (files) {
       // css for IE6
       for (selector in rulesIE6) {
         rulesCSS = rulesIE6[selector];
-
         rulesCSS.forEach(function (rule) {
           s = rule.selector;
           newClass = 'iefixfree-' + generatedClassesCount++;
@@ -124,6 +123,31 @@ var GeneratorJS = function (files) {
     },
 
     generateJS = function() {
+      if (pairs.length > 2) {
+        js += 'var pairs = ' + pairs + ';\n';
+        js += 'var setClasses = ' + setClasses + ';\n';
+        js += 'setClasses();\n\n';
+      }
+      if (pairsIE6.length > 2) {
+        ie6js += 'var pairsIE6 = ' + pairsIE6 + ';\n';
+        ie6js += 'var setIE6Classes = ' + setIE6Classes + ';\n\n';
+        ie6js += 'setIE6Classes();\n\n';
+      }
+      if (pairsBefore.length > 2) {
+        ie6js += 'var pairsBefore = ' + pairsBefore + ';\n';
+        ie6js += 'var setBefore = ' + setBefore + ';\n\n';
+        ie6js += 'setBefore();\n\n';
+      }
+      if (pairsAfter.length > 2) {
+        ie6js += 'var pairsAfter = ' + pairsAfter + ';\n';
+        ie6js += 'var setAfter = ' + setAfter + ';\n\n';
+        ie6js += 'setAfter();\n\n';
+      }
+
+      ie6js += js;
+
+      js += 'var polyfill = ' + polyfill + ';\npolyfill();\n\n';
+      ie6js += 'var polyfill = ' + polyfill + ';\npolyfill();\n\n';
     },
 
     run = function() {
@@ -132,19 +156,17 @@ var GeneratorJS = function (files) {
 
       ie6css += css;
 
-      pairs = JSON.stringify(pairs);
-      pairsIE6 = JSON.stringify(pairsIE6);
+      pairs       = JSON.stringify(pairs);
+      pairsIE6    = JSON.stringify(pairsIE6);
       pairsBefore = JSON.stringify(pairsBefore);
-      pairsAfter = JSON.stringify(pairsAfter);
+      pairsAfter  = JSON.stringify(pairsAfter);
 
-      log('js:');
+      generateJS();
+
+      log('js-css:');
       log(ie6css);
-      log('pairs');
-      log(pairs);
-      log('before ie6');
-      log(pairsBefore);
-      log('after ie6');
-      log(pairsAfter);
+      log('js-js:');
+      log(ie6js);
     };
 
   this.getCode = function () {

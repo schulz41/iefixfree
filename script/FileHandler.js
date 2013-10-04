@@ -96,6 +96,7 @@ var FileHandler = function () {
         p = document.createElement('p');
 
       span.setAttribute('title', 'remove');
+      span.setAttribute('role', 'button');
       p.innerHTML = cutFileName(name);
       p.setAttribute('title', name);
       li.appendChild(p);
