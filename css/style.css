@@ -43,7 +43,7 @@ button::-moz-focus-inner{border:none;-webkit-user-select:none;-moz-user-select:n
 #ok{display:none;}
 #back{display:none;}
 .error-log-wrap{font-size:15px;display:inline-block;}.error-log-wrap:empty{display:none;}
-#custom-form{padding:20px 0 0 0;opacity:0;transition:opacity .2s ease;}#custom-form label{display:block;padding:0 0 2px;}
+#custom-form{padding:20px 0 0 0;transition:opacity .2s ease;}#custom-form label{display:block;padding:0 0 2px;}
 #custom-form input[type="checkbox"],#custom-form input[type="radio"]{display:none;}
 #custom-form input[type="checkbox"]+label:before{content:url(../img/normal.png);}
 #custom-form input[type="checkbox"]:checked+label:before{content:url(../img/checked.png);}

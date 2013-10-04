@@ -27,8 +27,6 @@ var GeneratorJS = function (files) {
 
     // for ie6 only
     rulesIE6 = {
-      'before':         [],
-      'after':          [],
       'attr':           [],
       'child':          [], // >
       'adjacent':       [], // ~
@@ -109,8 +107,9 @@ var GeneratorJS = function (files) {
       for (selector in rules) {
         rulesCSS = rules[selector];
         rulesCSS.forEach(function (rule) {
-          pairs[rule.selector] = 'iefixfree-' + generatedClassesCount++;
-          css += 'iefixfree-' + generatedClassesCount;
+          newClass = 'iefixfree-' + generatedClassesCount++;
+          pairs[rule.selector] = newClass;
+          css += newClass;
           css += ' {\n';
 
           for (prop in rule.properties) {
