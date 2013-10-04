@@ -120,7 +120,8 @@ var FileHandler = function () {
     breakSource = function (s) {
       return s.replace(/ src=/g, ' fake_src=')
         .replace(/ source=/g, ' fake_source=')
-        .replace(/ data=/g, ' fake_data=');
+        .replace(/ data=/g, ' fake_data=')
+        .replace(/<link /, '<fake-link ');
     },
 
     /**

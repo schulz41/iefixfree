@@ -1,12 +1,16 @@
 
 'use strict';
 
+/**
+ * @constructor
+ */
 var GeneratorJS = function (files) {
   var ie6js = '',
     js      = '',
     ie6css  = '',
     css     = '',
 
+    // number of generates class .iefixfree-n
     generatedClassesCount = 0,
 
     // for all IEs
@@ -35,17 +39,22 @@ var GeneratorJS = function (files) {
       'sibling':        []  // +
     },
 
+    // contains pairs 'actual-selector': 'generated-class'.
+    // is added to a js file
     pairsAfter  = {},
     pairsBefore = {},
     pairsIE6    = {},
     pairs       = {},
 
+    /**
+     * @private
+     */
     chooseSelectors = function () {
       var selector,
         s;
 
       // for each css file
-      files.css.forEach(function (css) {
+      files.css.forEach(function (css, i) {
         // for each rule
         css.rules.forEach(function (rule) {
           s = rule.selector;
@@ -72,6 +81,10 @@ var GeneratorJS = function (files) {
       });
     },
 
+    /**
+     * generate css strings from the selectors
+     * @private
+     */
     generateCSS = function() {
       var selector,
         rulesCSS, // array of selectors
@@ -108,22 +121,30 @@ var GeneratorJS = function (files) {
       // css for all IEs
       for (selector in rules) {
         rulesCSS = rules[selector];
+        // for each rule matched to current selector
         rulesCSS.forEach(function (rule) {
+          // create next class name
           newClass = 'iefixfree-' + generatedClassesCount++;
+          // add it to the to the js code
           pairs[rule.selector] = newClass;
+          // add the rule to the css
           css += newClass;
           css += ' {\n';
-
           for (prop in rule.properties) {
             css += '    ' + prop + ': ' + rule.properties[prop] + ';\n';
           }
-
           css += '}\n\n';
         });
       }
     },
 
+    /**
+     * generate js strings from the selectors
+     * @private
+     */
     generateJS = function() {
+      // if length === 2 then is just object literal '{}'
+      // functions are located in the ieFunctions.js file
       if (pairs.length > 2) {
         js += 'var pairs = ' + pairs + ';\n';
         js += 'var setClasses = ' + setClasses + ';\n';
@@ -151,6 +172,9 @@ var GeneratorJS = function (files) {
       ie6js += 'var polyfill = ' + polyfill + ';\npolyfill();\n\n';
     },
 
+    /**
+     * @private
+     */
     run = function() {
       chooseSelectors();
       generateCSS();
@@ -170,6 +194,9 @@ var GeneratorJS = function (files) {
       log(ie6js);
     };
 
+  /**
+   * @returns object containing js and css code
+   */
   this.getCode = function () {
     return {ie6js: ie6js, js: js, ie6css: ie6css, css: css};
   };

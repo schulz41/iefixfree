@@ -104,6 +104,19 @@ var GeneratorCSS = function (files) {
       return result;
     },
 
+    hasContentOutside = function (selector) {
+      // all elements inside 
+      var elements = document.querySelectorAll(selector + '*'),
+        lt,
+        lb,
+        rt,
+        rb;
+
+      Array.prototype.forEach.call(elements, function (e) {
+      
+      });
+    },
+
     // each method may to add selector to the 'selectors' array
     methods = {
       'display': function (value, selector) {
@@ -131,7 +144,7 @@ var GeneratorCSS = function (files) {
       'height': function (value, selector) {
         if (!parseInt(value)) {
           selectors.smallHeight.push(selector);
-        } else {
+        } else if(!hasContentOutside(selector)) {
           selectors.height.push(selector);
         }
       },
