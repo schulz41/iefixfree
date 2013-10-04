@@ -27,6 +27,21 @@ var FileHandler = function () {
       $input.value = '';
     },
 
+    cutFileName = function (name) {
+      var width = 165, // width of <p> element
+        charWidth = 8, // width of single letter
+        fromEnd = 8,
+        outLen = Math.floor(width / charWidth),
+        len = name.length;
+
+
+      if(len < outLen) {
+        return name;
+      } else {
+        return name.slice(0, outLen - 3 - fromEnd) + '...' + name.slice(-fromEnd);
+      }
+    },
+
     /**
      * remove html file from html - array and from the list in view html
      * @private
@@ -80,9 +95,8 @@ var FileHandler = function () {
         // contains file name
         p = document.createElement('p');
 
-      //span.innerHTML = 'x';
       span.setAttribute('title', 'remove');
-      p.innerHTML = name;
+      p.innerHTML = cutFileName(name);
       p.setAttribute('title', name);
       li.appendChild(p);
       li.appendChild(span);

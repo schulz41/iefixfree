@@ -24,6 +24,7 @@
     .row-wrap;
     text-align: justify;
     white-space: normal;
+
     & > li,
     & > ul > li {
         .row-item;
@@ -32,6 +33,7 @@
             display: inline-block;
         }
     }
+
     &:after {
         content: '.';
         display: inline-block;
@@ -44,16 +46,19 @@
 .drop-down () {
     li {
         position: relative;
+
         & > ul {
             position: absolute;
             left: 0;
             top: 100%;
             display: none;
+
             a {
                 display: block;
             }
         }
     }
+
     & > li:hover > ul,
     & > ul > li:hover > ul {
         display: block;
@@ -62,10 +67,12 @@
 
 .drop-down-double () {
     .drop-down;
+
     li li ul {
         left: 100%;
         top: 0;
     }
+
     li li:hover ul {
         display: block;
     }
@@ -73,12 +80,14 @@
 
 .underline () {
     text-decoration: underline;
+
     &:hover {
         text-decoration: none;
     }
 }
 .non-underline () {
     text-decoration: none;
+
     &:hover {
         text-decoration: underline;
     }
@@ -113,6 +122,7 @@
 
 .same-height () {
     overflow: hidden;
+
     & > div {
         padding-bottom: 9999px;
         margin-bottom: -9999px;
@@ -200,12 +210,15 @@ button::-moz-focus-inner {
 .logo,
 .footer-logo {
     font: bold 64px 'Titillium Web', sans-serif;
+
     span {
         color: #345;
     }
+
     em {
         color: #32ebfb;
     }
+
     a:hover {
         text-decoration: none;
     }
@@ -216,14 +229,17 @@ button::-moz-focus-inner {
     right: 0;
     top: 48px;
     .row-wrap;
+
     li {
         .row-item;
         font: 20px 'Titillium Web', sans-serif;
     }
+
     a {
         display: inline-block;
         padding: 0 10px;
         transition: all .2s ease;
+
         &:hover {
             color: #32ebfb;
         }
@@ -251,6 +267,7 @@ button::-moz-focus-inner {
         font-weight: normal;
         text-decoration: underline;
         color: #32ebfb;
+
         &:hover {
             text-decoration: none;
         }
@@ -293,6 +310,7 @@ button::-moz-focus-inner {
         color: #fff;
         .v-gradient(#151515, #151515);
         box-shadow: inset 0 1px 0 #0d0d0d, inset 1px 0 0 #262626, inset 0 -1px 0 #191919, inset -1px 0 0 #262626;
+
         span {
             position: relative;
             top: 1px;
@@ -350,13 +368,15 @@ button::-moz-focus-inner {
     .row-item;
     padding: 25px 25px 0 25px;
     position: relative;
-    width: 150px;
+    width: 160px;
+
     h2 {
         position: absolute;
         top: 0;
         white-space: nowrap;
         font-weight: bold;
     }
+
     ol:empty + h2 {
         display: none;
     }
@@ -365,22 +385,25 @@ button::-moz-focus-inner {
         list-style: decimal;
         list-style-position: inside;
     }
+
     li {
-        width: 170px;
+        width: 180px;
         position: relative;
         white-space: nowrap;
         font: 12px 'Ubuntu Mono', sans-serif;
+
         p {
             text-overflow: ellipsis;
             overflow: hidden;
-            width: 135px;
+            width: 145px;
             display: inline-block;
             padding: 0 0 0 5px;
         }
+
         span {
             position: absolute;
             right: 0px;
-            top: 5px;
+            top: 3px;
             cursor: pointer;
             border: 1px solid #2e0300;
             display: inline-block;
@@ -390,6 +413,11 @@ button::-moz-focus-inner {
             line-height: 7px;
             .v-gradient(lighten(#990707, 10%), #990707);
             box-shadow: 1px 1px 3px #391919, -1px -1px 3px #391919, -1px 1px 3px #391919, 1px -1px 3px #391919, inset 0 2px 4px #e97f7f, inset 0 -2px 4px #990707;
+
+            &:active {
+                right: -1px;
+                top: 4px;
+            }
         }
     }
 }
@@ -415,7 +443,9 @@ button::-moz-focus-inner {
 
 #custom-form {
     padding: 20px 0 0 0;
-    display: none;
+    //display: none;
+    opacity: 0;
+    transition: opacity .2s ease;
 
     label {
         display: block;
@@ -501,6 +531,7 @@ button::-moz-focus-inner {
         color: #222;
         font-size: 12px;
         font-weight: normal;
+
         i {
             position: relative;
             top: -1px;
@@ -550,6 +581,7 @@ button::-moz-focus-inner {
 .footer {
     height: @footerHeight;
     position: relative;
+
     div div {
         position: relative;
         top: 20px;
@@ -577,6 +609,7 @@ button::-moz-focus-inner {
     font-size: 34px;
     text-shadow: none;
     color: darken(#345, 10%);
+
     &:hover {
         color: #345;
     }
