@@ -27,7 +27,11 @@ var GeneratorCSS = function (files) {
       'position':        [],
       'overflow':        [],
       'opacity':         [],
-      'color':           []
+      'color':           [],
+      'top':             [],
+      'right':           [],
+      'left':            [],
+      'bottom':          []
     },
 
     /**
@@ -158,6 +162,34 @@ var GeneratorCSS = function (files) {
         if (value.slice(0, 4) === 'rgba') {
           selectors.color.push({selector: selector, value: rgba2hex(value)});
         }
+      },
+      'top': function (value, selector) {
+        value = parseInt(value);
+
+        if (value < 0) {
+          selectors.top.push({selector: selector, value: value});
+        }
+      },
+      'left': function (value, selector) {
+        value = parseInt(value);
+
+        if (value < 0) {
+          selectors.left.push({selector: selector, value: value});
+        }
+      },
+      'right': function (value, selector) {
+        value = parseInt(value);
+
+        if (value < 0) {
+          selectors.right.push({selector: selector, value: value});
+        }
+      },
+      'bottom': function (value, selector) {
+        value = parseInt(value);
+
+        if (value < 0) {
+          selectors.bottoms.push({selector: selector, value: value});
+        }
       }
     },
 
@@ -269,7 +301,11 @@ var GeneratorCSS = function (files) {
           'position':        ' {\n  position: absolute;\n  top: expression(parseInt(document.body.scrollTop, 10) + "px");\n}\n\n',
           'overflow':        ' {\n  position: relative;\n}\n\n',
           'opacity':         ' {\n  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=%value%);\n  zoom: 1;\n}\n',
-          'color':           ' {\n  background: transparent;\n  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=%value%, endColorstr=%value%);\n}\n\n'
+          'color':           ' {\n  background: transparent;\n  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=%value%, endColorstr=%value%);\n}\n\n',
+          'top':             ' {\n  margin-top: %value%px;\n}\n\n',
+          'left':            ' {\n  margin-left: %value%px;\n}\n\n',
+          'right':           ' {\n  margin-right: %value%px;\n}\n\n',
+          'bottom':          ' {\n  margin-bottom: %value%px;\n}\n\n'
         },
 
         buffer,

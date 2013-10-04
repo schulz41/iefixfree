@@ -27,6 +27,8 @@ var GeneratorJS = function (files) {
 
     // for ie6 only
     rulesIE6 = {
+      'after':          [],
+      'before':         [],
       'attr':           [],
       'child':          [], // >
       'adjacent':       [], // ~
