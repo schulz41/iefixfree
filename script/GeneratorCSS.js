@@ -104,49 +104,72 @@ var GeneratorCSS = function (files) {
       return result;
     },
 
+    /**
+     * returns true if elements that match the current selector contains
+     * descendant that are outside, and then we can't use overflow: hidden; hack
+     * for fixed height
+     *
+     * @private
+     * @param selector CSS selector of container
+     * @returns boolean 
+     */
     hasContentOutside = function (selector) {
       // all elements inside 
-      var parent = document.querySelectorAll(selector),
+      var parents = document.querySelectorAll(selector),,
+        parLen = parents.length,
+        parCnt,
+        eLen,
+        eCnt
         elements,
+        // the size and position of child nodes
         width,
         height,
         left,
         top,
+        // the size and position of parent node
         pTop,
         pLeft,
         pWidth,
         pHeight;
 
       // for each element that match the current selector
-      Array.prototype.forEach.call(parents, function (p) {
+      // (can't use forEach because of return statement)
+      for (parCnt = 0; parCnt < parLen; parCnt++) {
+        p = parents[parCnt];
+
         pWidth = p.offsetWidth;
         pHeight = p.offsetHeight;
         pLeft = p.offsetLeft;
         pTop = p.offsetTop;
 
         elements = p.querySelectorAll('*');
+        eLen = elements.length;
 
         // for each descendant
-        Array.prototype.forEach.call(elements, function (e) {
+        for (eCnt = 0; eCnt < eLen; eCnt++) {
+          e = elements[eCnt];
+
           width = e.offsetWidth;
           height = e.offsetHeight;
           left = 0;
           top = 0;
 
+          // add offsets
           while (e && e !== p) {
             left += parseFloat(e.offsetLeft);
             top += parseFloat(e.offsetTop);
             e = e.offsetParent;
           }
 
+          // check position
           if (left < pLeft ||
             top < pTop ||
             left + width > pLeft + pWidth ||
             top + height > pTop + pHeight) {
             return true;
           }
-        });
-      });
+        }
+      }
 
       return false;
     },
