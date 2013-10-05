@@ -13,7 +13,6 @@ var GeneratorCSS = function (files) {
     ie8css  = '',
 
     // contains the css selectors of elements that need fixes
-
     selectors = {
       'display':         [],
       'float':           [],
@@ -114,12 +113,12 @@ var GeneratorCSS = function (files) {
      * @returns boolean 
      */
     hasContentOutside = function (selector) {
-      // all elements inside 
-      var parents = document.querySelectorAll(selector),,
+      // all elements that match
+      var parents = document.querySelectorAll(selector),
         parLen = parents.length,
         parCnt,
         eLen,
-        eCnt
+        eCnt,
         elements,
         // the size and position of child nodes
         width,
@@ -130,7 +129,10 @@ var GeneratorCSS = function (files) {
         pTop,
         pLeft,
         pWidth,
-        pHeight;
+        pHeight,
+        // tmp var
+        p,
+        e;
 
       // for each element that match the current selector
       // (can't use forEach because of return statement)
@@ -163,9 +165,9 @@ var GeneratorCSS = function (files) {
 
           // check position
           if (left < pLeft ||
-            top < pTop ||
-            left + width > pLeft + pWidth ||
-            top + height > pTop + pHeight) {
+              top < pTop ||
+              left + width > pLeft + pWidth ||
+              top + height > pTop + pHeight) {
             return true;
           }
         }
@@ -394,11 +396,6 @@ var GeneratorCSS = function (files) {
     run = function () {
       chooseSelectors();
       generateCSS();
-
-      // and new css rules to fix there the Cntt supported selectors
-      files.css.push(new ParserCSS(ie6css));
-      files.css.push(new ParserCSS(ie7css));
-      files.css.push(new ParserCSS(ie8css));
     };
 
   this.getCode = function () {

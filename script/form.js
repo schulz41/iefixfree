@@ -14,7 +14,7 @@
       // check cookies
     },
 
-    initHelps = function() {
+    initHelps = function () {
       var help = document.querySelectorAll('em.form-help'),
         helpLen = help.length,
         helpCnt;
@@ -26,14 +26,17 @@
           e.stopPropagation();
         });
 
-        help[helpCnt].addEventListener('mousedown', function(e) {
+        help[helpCnt].addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
         });
       }
+    },
+
+    initWarnings = function () {
     };
 
-  okButton.addEventListener('mousedown', function () {
+  okButton.addEventListener('click', function () {
     var xs = document.querySelectorAll('.file-name-section span');
 
     //form.style.display = 'inline-block';
@@ -50,7 +53,13 @@
     });
   });
 
-  back.addEventListener('mousedown', function () {
+  okButton.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  });
+
+  back.addEventListener('click', function () {
     var xs = document.querySelectorAll('.file-name-section span');
 
     Array.prototype.forEach.call(xs, function (e) {
@@ -67,6 +76,12 @@
     back.setAttribute('disabled');
     //caption.style.visibility = 'visible';
     caption.style.opacity = 1;
+  });
+
+  back.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
   });
 
   initHelps();
