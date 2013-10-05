@@ -516,40 +516,45 @@ a {
     }
 }
 
-.vanilla {
+.vanilla,
+.valid-css,
+.valid-html,
+.js-lint {
     display: inline-block;
-    background-image: url(../img/vanilla.png);
-    width: 80px;
-    height: 15px;
     position: absolute;
-    right: 40px;
-    top: 45px;
+    top: 50px;
+    height: 15px;
     text-indent: 100%;
     white-space: nowrap;
     overflow: hidden;
     -webkit-filter: grayscale(100%);
+    background-size: contain;
+}
+
+.valid-css,
+.valid-html {
+    width: 42px;
+}
+
+.vanilla {
+    background-image: url(../img/vanilla.png);
+    width: 80px;
+    right: 40px;
 }
 
 .valid-css {
     background-image: url(../img/vcss-blue.gif);
-    height: 15px;
-    width: 48px;
-    top: 45px;
     right: 125px;
-    display: inline-block;
-    background-size: cover;
-    position: absolute;
-    -webkit-filter: grayscale(100%);
 }
 
 .valid-html {
     background-image: url(../img/html5-logo.png);
-    height: 15px;
-    width: 48px;
-    top: 45px;
-    right: 180px;
-    display: inline-block;
-    background-size: cover;
-    position: absolute;
-    -webkit-filter: grayscale(100%);
+    right: 172px;
+}
+
+.js-lint {
+    background-image: url(../img/jslintpill.gif);
+    height: 17px;
+    width: 32px;
+    right: 220px;
 }

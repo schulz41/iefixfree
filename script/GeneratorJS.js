@@ -1,10 +1,9 @@
-
-'use strict';
-
 /**
  * @constructor
  */
 var GeneratorJS = function (files) {
+  'use strict';
+
   var ie6js = '',
     js      = '',
     ie6css  = '',
@@ -50,31 +49,33 @@ var GeneratorJS = function (files) {
      * @private
      */
     chooseSelectors = function () {
-      var selector,
-        s;
-
       // for each css file
-      files.css.forEach(function (css, i) {
+      files.css.forEach(function (css) {
         // for each rule
         css.rules.forEach(function (rule) {
-          s = rule.selector;
+          var selector,
+            s = rule.selector;
 
           // for each type of selectors ie6
           for (selector in rulesIE6) {
-            // if is child selector (+, >, ~)
-            if (selector.length === 1) {
-              if (~s.indexOf(selector)) {
+            if (rulesIE6.hasOwnProperty(selector)) {
+              // if is child selector (+, >, ~)
+              if (selector.length === 1) {
+                if (s.indexOf(selector) !== -1) {
+                  rulesIE6[selector].push(rule);
+                }
+              } else if (s.indexOf(':' + selector) !== -1) {
                 rulesIE6[selector].push(rule);
               }
-            } else if (~s.indexOf(':' + selector)) {
-              rulesIE6[selector].push(rule);
-            }
-          }
 
-          // for each type of selectors
-          for (selector in rules) {
-            if (~s.indexOf(':' + selector)) {
-              rules[selector].push(rule);
+              // for each type of selectors
+              for (selector in rules) {
+                if (rules.hasOwnProperty(selector)) {
+                  if (s.indexOf(':' + selector) !== -1) {
+                    rules[selector].push(rule);
+                  }
+                }
+              }
             }
           }
         });
@@ -85,23 +86,18 @@ var GeneratorJS = function (files) {
      * generate css strings from the selectors
      * @private
      */
-    generateCSS = function() {
-      var selector,
-        rulesCSS, // array of selectors
-        prop,
-        newClass,
-        s;
+    generateCSS = function () {
+      var processRuleIE6 = function (rule) {
+          var newClass,
+            prop,
+            s;
 
-      // css for IE6
-      for (selector in rulesIE6) {
-        rulesCSS = rulesIE6[selector];
-        rulesCSS.forEach(function (rule) {
           s = rule.selector;
           newClass = 'iefixfree-' + generatedClassesCount++;
 
-          if (~s.indexOf(':before')) {
+          if (s.indexOf(':before') !== -1) {
             pairsBefore[s] = newClass;
-          } else if (~s.indexOf(':after')) {
+          } else if (s.indexOf(':after') !== -1) {
             pairsAfter[s] = newClass;
           } else {
             pairsIE6[s] = newClass;
@@ -111,18 +107,18 @@ var GeneratorJS = function (files) {
           ie6css += ' {\n';
 
           for (prop in rule.properties) {
-            ie6css += '    ' + prop + ': ' + rule.properties[prop] + ';\n';
+            if (rule.properties.hasOwnProperty(prop)) {
+              ie6css += '    ' + prop + ': ' + rule.properties[prop] + ';\n';
+            }
           }
 
           ie6css += '}\n\n';
-        });
-      }
+        },
 
-      // css for all IEs
-      for (selector in rules) {
-        rulesCSS = rules[selector];
-        // for each rule matched to current selector
-        rulesCSS.forEach(function (rule) {
+        processRule = function (rule) {
+          var newClass,
+            prop;
+
           // create next class name
           newClass = 'iefixfree-' + generatedClassesCount++;
           // add it to the to the js code
@@ -131,10 +127,31 @@ var GeneratorJS = function (files) {
           css += newClass;
           css += ' {\n';
           for (prop in rule.properties) {
-            css += '    ' + prop + ': ' + rule.properties[prop] + ';\n';
+            if (rule.properties.hasOwnProperty(prop)) {
+              css += '    ' + prop + ': ' + rule.properties[prop] + ';\n';
+            }
           }
           css += '}\n\n';
-        });
+        },
+
+        selector,
+        rulesCSS; // array of selectors
+
+      // css for IE6
+      for (selector in rulesIE6) {
+        if (rulesIE6.hasOwnProperty(selector)) {
+          rulesCSS = rulesIE6[selector];
+          rulesCSS.forEach(processRuleIE6);
+        }
+      }
+
+      // css for all IEs
+      for (selector in rules) {
+        if (rules.hasOwnProperty(selector)) {
+          rulesCSS = rules[selector];
+          // for each rule matched to current selector
+          rulesCSS.forEach(processRule);
+        }
       }
     },
 
@@ -142,7 +159,7 @@ var GeneratorJS = function (files) {
      * generate js strings from the selectors
      * @private
      */
-    generateJS = function() {
+    generateJS = function () {
       // if length === 2 then is just object literal '{}'
       // functions are located in the ieFunctions.js file
       if (pairs.length > 2) {
@@ -175,7 +192,7 @@ var GeneratorJS = function (files) {
     /**
      * @private
      */
-    run = function() {
+    run = function () {
       chooseSelectors();
       generateCSS();
 

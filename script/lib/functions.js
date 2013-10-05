@@ -2,14 +2,14 @@ var $ = function(id) {
 		return document.getElementById(id);
 	},
 
-	ErrorMessage = function(s) {
+	errorMessage = function(s) {
 		var li = newElement('li');
 
 		li.innerHTML = s || 'unknown error';
 		$('#log-output').appendChild(li);
 	},
 
-	LogMessage = function(s) {
+	logMessage = function(s) {
 		alert(s);
 	},
 

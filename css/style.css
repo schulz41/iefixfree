@@ -63,6 +63,9 @@ a{text-decoration:none;}a:hover{text-decoration:underline;}
 .footer{height:120px;position:relative;}.footer div div{position:relative;top:20px;background-color:rgba(0, 0, 0, 0.3);height:60px;padding:10px 40px;text-align:right;border-radius:8px;font-size:10px;color:#777;text-shadow:1px 1px 0 #000000,-1px -1px 0 #000000;}
 .copy{position:relative;top:11px;display:inline-block;}
 .footer-logo{position:absolute;left:20px;top:13px;font-size:34px;text-shadow:none;color:#202a35;}.footer-logo:hover{color:#345;}
-.vanilla{display:inline-block;background-image:url(../img/vanilla.png);width:80px;height:15px;position:absolute;right:40px;top:45px;text-indent:100%;white-space:nowrap;overflow:hidden;-webkit-filter:grayscale(100%);}
-.valid-css{background-image:url(../img/vcss-blue.gif);height:15px;width:48px;top:45px;right:125px;display:inline-block;background-size:cover;position:absolute;-webkit-filter:grayscale(100%);}
-.valid-html{background-image:url(../img/html5-logo.png);height:15px;width:48px;top:45px;right:180px;display:inline-block;background-size:cover;position:absolute;-webkit-filter:grayscale(100%);}
+.vanilla,.valid-css,.valid-html,.js-lint{display:inline-block;position:absolute;top:50px;height:15px;text-indent:100%;white-space:nowrap;overflow:hidden;-webkit-filter:grayscale(100%);background-size:contain;}
+.valid-css,.valid-html{width:42px;}
+.vanilla{background-image:url(../img/vanilla.png);width:80px;right:40px;}
+.valid-css{background-image:url(../img/vcss-blue.gif);right:125px;}
+.valid-html{background-image:url(../img/html5-logo.png);right:172px;}
+.js-lint{background-image:url(../img/jslintpill.gif);height:17px;width:32px;right:220px;}

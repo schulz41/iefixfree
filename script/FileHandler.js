@@ -1,13 +1,11 @@
-
-'use strict';
-
 /**
  * @constructor
  */
-
 var FileHandler = function () {
+  'use strict';
+
   if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-    new ErrorMessage('Your browser seems to not support file API');
+    errorMessage('Your browser seems to not support file API');
   }
 
   var html = [],
@@ -34,12 +32,11 @@ var FileHandler = function () {
         outLen = Math.floor(width / charWidth),
         len = name.length;
 
-
       if (len < outLen) {
         return name;
-      } else {
-        return name.slice(0, outLen - 3 - fromEnd) + '...' + name.slice(-fromEnd);
       }
+
+      return name.slice(0, outLen - 3 - fromEnd) + '...' + name.slice(-fromEnd);
     },
 
     /**
@@ -133,6 +130,8 @@ var FileHandler = function () {
       var name = file.name,
         type = getExtension(name),
 
+        reader = new FileReader(),
+
         /**
          * create a hidden iframe, insert html code into, 
          * add iframes body element to the html array
@@ -154,15 +153,13 @@ var FileHandler = function () {
          */
         onCssLoad = function () {
           css.push(new ParserCSS(reader.result));
-        },
-
-        reader = new FileReader();
+        };
 
       // check file extension
       if (type === 'html' || type === 'htm') {
         type = 'html';
       } else if (type !== 'css') {
-        new LogMessage('unknown file extension: ' + type);
+        logMessage('unknown file extension: ' + type);
         return;
       }
 
@@ -195,7 +192,7 @@ var FileHandler = function () {
         i;
 
       // can't continue while loading files
-      if(len && !css.length) {
+      if (len && !css.length) {
         $okButton.style.display = 'none';
         $back.style.display = 'none';
       }
@@ -213,8 +210,7 @@ var FileHandler = function () {
     readInternalStyles = function () {
       var len = html.length,
         styles,
-        doc,
-        css,
+        internalCss,
         htmlCnt,
         styleCnt;
 
@@ -224,13 +220,13 @@ var FileHandler = function () {
         styles = html[htmlCnt].getElementsByTagName('style');
 
         // collect all styles to the single string
-        css = '';
+        internalCss = '';
         for (styleCnt = 0; styleCnt < styles.length; styleCnt++) {
-          css += ' ' + styles[styleCnt].innerHTML;
+          internalCss += ' ' + styles[styleCnt].innerHTML;
         }
 
-        if (css !== '') {
-          css.push(new ParserCSS(css));
+        if (internalCss !== '') {
+          css.push(new ParserCSS(internalCss));
         }
       }
     };

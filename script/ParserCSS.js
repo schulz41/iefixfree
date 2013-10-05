@@ -133,7 +133,7 @@ var ParserCSS = function (code) {
       for (i = 0; i < len; i++) {
         self.rules.push(new Rule(selectors[i], properties));
       }
-    }, 
+    },
 
     skipComment = function () {
       var prevChar,

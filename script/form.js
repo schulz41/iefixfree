@@ -1,15 +1,19 @@
-(function() {
+(function () {
   'use strict';
-  
+
   var okButton = $('ok'),
     form = $('custom-form'),
     input = $('file-input'),
     back = $('back'),
     caption = $('files-caption'),
-    inputs = $('input'),
 
     initForm = function () {
       // check cookies
+    },
+
+    stopEvent = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
     },
 
     initHelps = function () {
@@ -18,16 +22,7 @@
         helpCnt;
 
       for (helpCnt = 0; helpCnt < helpLen; helpCnt++) {
-        help[helpCnt].addEventListener('click', function(e) {
-          log(e.target.getAttribute('data-title'));
-          e.preventDefault();
-          e.stopPropagation();
-        });
-
-        help[helpCnt].addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-        });
+        help[helpCnt].addEventListener('click', stopEvent);
       }
     },
 
@@ -37,16 +32,7 @@
         helpCnt;
 
       for (helpCnt = 0; helpCnt < helpLen; helpCnt++) {
-        help[helpCnt].addEventListener('click', function(e) {
-          log(e.target.getAttribute('data-title'));
-          e.preventDefault();
-          e.stopPropagation();
-        });
-
-        help[helpCnt].addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-        });
+        help[helpCnt].addEventListener('click', stopEvent);
       }
     },
 
