@@ -62,5 +62,6 @@ button::-moz-focus-inner{border:none;-webkit-user-select:none;-moz-user-select:n
 .form-help{color:#00aa55;border:1px solid #00aa55;padding:0 2px;}
 .form-note{color:#aa0055;padding:0 3px;border:1px solid #aa0055;}
 .footer{height:120px;position:relative;}.footer div div{position:relative;top:20px;background-color:rgba(0, 0, 0, 0.3);height:60px;padding:10px 40px;text-align:right;border-radius:8px;font-size:10px;color:#777;text-shadow:1px 1px 0 #000000,-1px -1px 0 #000000;}
-.copy{position:relative;top:21px;display:inline-block;}
+.copy{position:relative;top:11px;display:inline-block;}
 .footer-logo{position:absolute;left:20px;top:13px;font-size:34px;text-shadow:none;color:#202a35;}.footer-logo:hover{color:#345;}
+.vanilla{display:inline-block;background-image:url(../img/vanilla.png);width:80px;height:15px;position:absolute;right:40px;top:45px;text-indent:100%;white-space:nowrap;overflow:hidden;filter:grayscale(100%);filter:gray;-webkit-filter:grayscale(100%);}

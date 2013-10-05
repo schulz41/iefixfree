@@ -390,6 +390,7 @@ var GeneratorCSS = function (files) {
       }
 
       log('css: ');
+      //log(compressCSS(ie6css));
       log(ie6css);
     },
 

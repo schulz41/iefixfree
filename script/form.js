@@ -1,7 +1,5 @@
-
-'use strict';
-
 (function() {
+  'use strict';
   
   var okButton = $('ok'),
     form = $('custom-form'),
@@ -50,6 +48,14 @@
           e.stopPropagation();
         });
       }
+    },
+
+    initLinks = function () {
+      var links = document.querySelectorAll('a.external');
+
+      Array.prototype.forEach.call(links, function (e) {
+        e.setAttribute('target', '_blank');
+      });
     };
 
   okButton.addEventListener('click', function () {
@@ -97,4 +103,5 @@
 
   initHelps();
   initNotes();
+  initLinks();
 }());

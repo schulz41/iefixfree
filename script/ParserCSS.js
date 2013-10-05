@@ -106,6 +106,7 @@ var ParserCSS = function (code, isInline) {
           }
         }
 
+        // if there's '}' symbols so there's something wrong
         if (eof() && c !== '}') {
           error('value');
         }
