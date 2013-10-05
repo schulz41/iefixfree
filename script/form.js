@@ -21,7 +21,7 @@
 
       for (helpCnt = 0; helpCnt < helpLen; helpCnt++) {
         help[helpCnt].addEventListener('click', function(e) {
-          log(e.target.getAttribute('title'));
+          log(e.target.getAttribute('data-title'));
           e.preventDefault();
           e.stopPropagation();
         });
@@ -33,19 +33,33 @@
       }
     },
 
-    initWarnings = function () {
+    initNotes = function () {
+      var help = document.querySelectorAll('em.form-note'),
+        helpLen = help.length,
+        helpCnt;
+
+      for (helpCnt = 0; helpCnt < helpLen; helpCnt++) {
+        help[helpCnt].addEventListener('click', function(e) {
+          log(e.target.getAttribute('data-title'));
+          e.preventDefault();
+          e.stopPropagation();
+        });
+
+        help[helpCnt].addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      }
     };
 
   okButton.addEventListener('click', function () {
     var xs = document.querySelectorAll('.file-name-section span');
 
-    //form.style.display = 'inline-block';
-    form.style.opacity = 1;
+    form.style.display = 'inline-block';
     input.children[0].setAttribute('disabled', '');
     input.children[1].setAttribute('disabled', '');
     back.style.display = 'inline-block';
     back.removeAttribute('disabled');
-    //caption.style.visibility = 'hidden';
     caption.style.opacity = 0;
 
     Array.prototype.forEach.call(xs, function (e) {
@@ -60,21 +74,18 @@
   });
 
   back.addEventListener('click', function () {
-    var xs = document.querySelectorAll('.file-name-section span');
+    var removeButtons = document.querySelectorAll('.file-name-section span');
 
-    Array.prototype.forEach.call(xs, function (e) {
+    Array.prototype.forEach.call(removeButtons, function (e) {
       e.style.display = 'inline-block';
     });
 
 
     input.children[0].removeAttribute('disabled');
     input.children[1].removeAttribute('disabled');
-    //form.style.display = 'none';
-    form.style.opacity = 0;
-    //input.style.display = 'inline-block';
-    input.style.opacity = 1;
+    form.style.display = 'none';
+    input.style.display = 'inline-block';
     back.setAttribute('disabled');
-    //caption.style.visibility = 'visible';
     caption.style.opacity = 1;
   });
 
@@ -85,4 +96,5 @@
   });
 
   initHelps();
+  initNotes();
 }());
