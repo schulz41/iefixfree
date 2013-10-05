@@ -111,7 +111,7 @@ var GeneratorCSS = function (files) {
         width,
         height,
         left,
-        top
+        top,
         pTop,
         pLeft,
         pWidth,
