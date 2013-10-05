@@ -1,10 +1,9 @@
-
-'use strict';
-
 /**
  * @constructor
  */
 var Rule = function (selector, properties) {
+  'use strict';
+
   this.selector = selector;
   this.properties = properties;
 };
@@ -12,36 +11,52 @@ var Rule = function (selector, properties) {
 /**
  * @constructor
  */
-var ParserCSS = function (code, isInline) {
+var ParserCSS = function (code) {
+  'use strict';
+
   this.rules = [];
 
   var self = this,
     index = 0,
     size = code.length,
 
-    parse = function () {
-      var start;
-
-      skip();
-      while (!eof()) {
-        start = curr();
-
-        if (start === '@') {
-          skipAtRule();
-        } else if (start === '/') {
-          skipComment();
-        } else {
-          readRule();
-        }
-        skip();
-      }
+    eof = function () {
+      return (index >= size);
     },
 
-    // TODO: maybe split to the read sel & read prop
+    curr = function () {
+      return code[index];
+    },
+
+    skip = function () {
+      var c;
+
+      do {
+        c = curr();
+        index++;
+      } while (!eof() && c.match(/\s/));
+
+      if (eof()) {
+        return;
+      }
+      // index pointed on the next char after first non space element or it's eof
+      index--; // now it's ok, just skip the spaces
+    },
+
+    error = function (s) {
+      if (s) {
+        alert(s);
+        throw new Error(s);
+      }
+
+      alert('invalid css document');
+      throw new Error('invalid css document');
+    },
+
     readRule = function () {
       // index pointed on the first char of selector
       var selectors = '',
-        insideString = false, // if inside of 'content' or url
+        inside = false, // if inside of 'content' or url
         properties = [],
         value = '',
         name = '',
@@ -68,7 +83,7 @@ var ParserCSS = function (code, isInline) {
       }
 
       // read properties
-      while (!eof() && (c !== '}' || insideString)) {
+      while (!eof() && (c !== '}' || inside)) {
         // read name
         name = '';
         c = '';
@@ -80,7 +95,7 @@ var ParserCSS = function (code, isInline) {
           index++;
 
           if (c === '\'' || c === '"') {
-            insideString = !insideString;
+            inside = !inside;
           }
         }
 
@@ -94,15 +109,15 @@ var ParserCSS = function (code, isInline) {
         value = '';
         c = '';
         // check '}' to trace empty rules
-        // if insideString then continue
+        // if inside then continue
         // otherwise await for semicolon
-        while (!eof() && (c !== ';' && c !== '}' || insideString)) {
+        while (!eof() && ((c !== ';' && c !== '}') || inside)) {
           value += c;
           c = curr();
           index++;
 
           if (c === '\'' || c === '"') {
-            insideString = !insideString;
+            inside = !inside;
           }
         }
 
@@ -118,7 +133,7 @@ var ParserCSS = function (code, isInline) {
       for (i = 0; i < len; i++) {
         self.rules.push(new Rule(selectors[i], properties));
       }
-    },    
+    }, 
 
     skipComment = function () {
       var prevChar,
@@ -146,7 +161,7 @@ var ParserCSS = function (code, isInline) {
 
     skipAtRule = function () {
       // index pointed to the '@' symbol
-      var insideString = false,
+      var inside = false,
         c,
         depth;
 
@@ -156,9 +171,9 @@ var ParserCSS = function (code, isInline) {
         index++;
 
         if (c === '\'' || c === '"') {
-          insideString = !insideString;
+          inside = !inside;
         }
-      } while (!eof() && (c !== ';' && c !== '{' || insideString));
+      } while (!eof() && ((c !== ';' && c !== '{') || inside));
 
       if (eof()) {
         if (c !== ';' && c !== '{') {
@@ -171,88 +186,54 @@ var ParserCSS = function (code, isInline) {
       }
 
       // index pointed on the next char after selector (';' or '{')
-
       if (c === ';') {
         // @import
         return;
-      } else {
-        // @media or @font-face
-        depth = 1; // count of start brackets
-        while (!eof() && depth !== 0) {
-          c = curr();
-          if (c === '{' && !insideString) {
-            depth++;
-          } else if (c === '}' && !insideString) {
-            if (depth <= 0) {
-              error();
-            }
-            depth--;
-          }
-          index++;
+      }
 
-          if (c === '\'' || c === '"') {
-            insideString = !insideString;
-          }
-        }
-
-        if (eof()) {
-          if (depth !== 0) {
+      // @media or @font-face
+      depth = 1; // count of start brackets
+      while (!eof() && depth !== 0) {
+        c = curr();
+        if (c === '{' && !inside) {
+          depth++;
+        } else if (c === '}' && !inside) {
+          if (depth <= 0) {
             error();
-          } else {
-            return;
           }
+          depth--;
+        }
+        index++;
+
+        if (c === '\'' || c === '"') {
+          inside = !inside;
         }
       }
-    },
-
-    skip = function () {
-      var c;
-
-      do {
-        c = curr();
-        index++;
-      } while (!eof() && c.match(/\s/));
 
       if (eof()) {
-        return;
-      }
-      // index pointed on the next char after first non space element or it's eof
-      index--; // now it's ok, just skip the spaces
-    },
-
-    eof = function () {
-      return (index >= size);
-    },
-
-    curr = function () {
-      return code[index];
-    },
-
-    dump = function () {
-      var out = document.createElement('output'),
-        s = '',
-        key,
-        i;
-
-      for (i = 0; i < self.rules.length; i++) {
-        s += '<br>' + self.rules[i].selector + ' {<br>';
-        for (key in self.rules[i].properties) {
-          s += '&nbsp;&nbsp;&nbsp;&nbsp;' + key + ': ' + self.rules[i].properties[key] + ';<br>';
+        if (depth !== 0) {
+          error();
+        } else {
+          return;
         }
-        s += '}<br>';
       }
-
-      out.innerHTML = s;
-      document.body.appendChild(out);
     },
 
-    error = function (s) {
-      if (s) {
-        alert(s);
-        throw new Error(s);
-      } else {
-        alert('invalid css document');
-        throw new Error('invalid css document');
+    parse = function () {
+      var start;
+
+      skip();
+      while (!eof()) {
+        start = curr();
+
+        if (start === '@') {
+          skipAtRule();
+        } else if (start === '/') {
+          skipComment();
+        } else {
+          readRule();
+        }
+        skip();
       }
     };
 

@@ -1,12 +1,10 @@
-
-'use strict';
-
 /**
  * @constructor
  * @param files FileBuilder object
  */
-
 var GeneratorCSS = function (files) {
+  'use strict';
+
   // contains css code for each browser
   var ie6css = '',
     ie7css  = '',
@@ -47,13 +45,13 @@ var GeneratorCSS = function (files) {
       var matches = function (s) {
           // just check element
           return s.split(' ').pop() === filter;
-        },
-        usedSelectors = [],
-        elements,
-        s;
+        };
 
       // for each .html document, if any
       files.html.forEach(function (html) {
+        var usedSelectors = [],
+          elements;
+
         // get all elements that mathed
         elements = html.querySelectorAll(selector);
         if (!elements) {
@@ -61,6 +59,7 @@ var GeneratorCSS = function (files) {
         }
 
         Array.prototype.forEach.call(elements, function (e) {
+          var s;
           // get its parent selector
           s = getSelector(e.parentNode);
           if (usedSelectors[s]) {
@@ -184,9 +183,8 @@ var GeneratorCSS = function (files) {
         }
       },
       'float': function (value, selector) {
-        var len = files.html.length,
-          // 'innerFloatLeft' or 'innerFloatRight', if has float
-          s;
+        // 'innerFloatLeft' or 'innerFloatRight', if has float
+        var s;
 
         // if has float
         if (value !== 'none') {
@@ -201,7 +199,7 @@ var GeneratorCSS = function (files) {
         }
       },
       'height': function (value, selector) {
-        if (!parseInt(value)) {
+        if (!parseInt(value, 10)) {
           selectors.smallHeight.push(selector);
         } else if(!hasContentOutside(selector)) {
           selectors.height.push(selector);
@@ -236,28 +234,28 @@ var GeneratorCSS = function (files) {
         }
       },
       'top': function (value, selector) {
-        value = parseInt(value);
+        value = parseInt(value, 10);
 
         if (value < 0) {
           selectors.top.push({selector: selector, value: value});
         }
       },
       'left': function (value, selector) {
-        value = parseInt(value);
+        value = parseInt(value, 10);
 
         if (value < 0) {
           selectors.left.push({selector: selector, value: value});
         }
       },
       'right': function (value, selector) {
-        value = parseInt(value);
+        value = parseInt(value, 10);
 
         if (value < 0) {
           selectors.right.push({selector: selector, value: value});
         }
       },
       'bottom': function (value, selector) {
-        value = parseInt(value);
+        value = parseInt(value, 10);
 
         if (value < 0) {
           selectors.bottom.push({selector: selector, value: value});
@@ -271,21 +269,23 @@ var GeneratorCSS = function (files) {
      */
 
     processSingleFile = function (css) {
-      var selector,
-        value,
-        prop;
-
       // for each Rule in the css file
       css.rules.forEach(function (rule) {
+        var selector,
+          value,
+          p;
+        
         // for each property
-        for (prop in rule.properties) {
-          value = rule.properties[prop];
-          selector = rule.selector;
+        for (p in rule.properties) {
+          if (rule.properties.hasOwnProperty(p)) {
+            value = rule.properties[p];
+            selector = rule.selector;
 
-          // if this may cause a bug
-          if (methods[prop]) {
-            // call method that will add selector to the 'selectors' array
-            methods[prop](value, selector);
+            // if this may cause a bug
+            if (methods[p]) {
+              // call method that will add selector to the 'selectors' array
+              methods[p](value, selector);
+            }
           }
         }
       });
@@ -326,7 +326,7 @@ var GeneratorCSS = function (files) {
           // each selector is added just once
 
           // if there's just a selector (value is some keyword)
-          if (typeof selectors[0].value === 'undefined') {
+          if (selectors[0].value === undefined) {
             // for each selector except last
             for (i = 0; i < len - 1; i++) {
               s = selectors[i];
@@ -385,8 +385,10 @@ var GeneratorCSS = function (files) {
 
       // for each possible problem (css property) generate some css
       for (i in selectors) {
-        buffer = processSingleFix(selectors[i], fixes[i]);
-        ie6css += buffer;
+        if (selectors.hasOwnProperty(i)) {
+          buffer = processSingleFix(selectors[i], fixes[i]);
+          ie6css += buffer;
+        }
       }
 
       log('css: ');

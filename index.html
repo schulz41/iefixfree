@@ -14,13 +14,15 @@
       <header class="header" role="banner">
         <h1 class="logo" itemprop="name"><a href="#"><span>ie</span><em>fix</em><span>free</span></a></h1>
 
-        <ul class="header-menu" role="navigation">
-          <li><a href="#" class="header-menu-active">home</a></li>
-          <li><a href="#">about</a></li>
-          <li><a href="#">github</a></li>
-          <li><a href="#">development</a></li>
-          <li><a href="#">contact</a></li>
-        </ul>
+        <nav role="navigation">
+          <ul class="header-menu">
+            <li><a href="#" class="header-menu-active">home</a></li>
+            <li><a href="#">about</a></li>
+            <li><a href="#">github</a></li>
+            <li><a href="#">development</a></li>
+            <li><a href="#">contact</a></li>
+          </ul>
+        </nav>
       </header>
 
       <div class="content" role="main">
@@ -43,13 +45,13 @@
           </p>
         </form><!-- inputs-field -->
 
-        <div class="file-name-section">
-          <ol id="css-file-name-list" role="log"></ol>
+        <div class="file-name-section" role="log">
+          <ol id="css-file-name-list"></ol>
           <h2>Uploaded css files:</h2>
         </div><!-- file-name-section -->
 
-        <div class="file-name-section">
-          <ol id="html-file-name-list" role="log"></ol>
+        <div class="file-name-section" role="log">
+          <ol id="html-file-name-list"></ol>
           <h2>Uploaded html files:</h2>
         </div><!-- file-name-section -->
 
@@ -152,7 +154,8 @@
           </p>
 
           <a href="http://vanilla-js.com/" class="vanilla external">vanilla js</a>
-          
+          <a href="http://jigsaw.w3.org/css-validator/check/referer" class="valid-css external"></a>
+          <a href="http://validator.w3.org/" class="valid-html external"></a>
         </div>
       </div>
     </footer>
