@@ -106,15 +106,49 @@ var GeneratorCSS = function (files) {
 
     hasContentOutside = function (selector) {
       // all elements inside 
-      var elements = document.querySelectorAll(selector + '*'),
-        lt,
-        lb,
-        rt,
-        rb;
+      var parent = document.querySelectorAll(selector),
+        elements,
+        width,
+        height,
+        left,
+        top
+        pTop,
+        pLeft,
+        pWidth,
+        pHeight;
 
-      Array.prototype.forEach.call(elements, function (e) {
-      
+      // for each element that match the current selector
+      Array.prototype.forEach.call(parents, function (p) {
+        pWidth = p.offsetWidth;
+        pHeight = p.offsetHeight;
+        pLeft = p.offsetLeft;
+        pTop = p.offsetTop;
+
+        elements = p.querySelectorAll('*');
+
+        // for each descendant
+        Array.prototype.forEach.call(elements, function (e) {
+          width = e.offsetWidth;
+          height = e.offsetHeight;
+          left = 0;
+          top = 0;
+
+          while (e && e !== p) {
+            left += parseFloat(e.offsetLeft);
+            top += parseFloat(e.offsetTop);
+            e = e.offsetParent;
+          }
+
+          if (left < pLeft ||
+            top < pTop ||
+            left + width > pLeft + pWidth ||
+            top + height > pTop + pHeight) {
+            return true;
+          }
+        });
       });
+
+      return false;
     },
 
     // each method may to add selector to the 'selectors' array
@@ -126,7 +160,7 @@ var GeneratorCSS = function (files) {
       },
       'float': function (value, selector) {
         var len = files.html.length,
-          // innerFloatLeft or innerFloatRight, if has float
+          // 'innerFloatLeft' or 'innerFloatRight', if has float
           s;
 
         // if has float
@@ -201,7 +235,7 @@ var GeneratorCSS = function (files) {
         value = parseInt(value);
 
         if (value < 0) {
-          selectors.bottoms.push({selector: selector, value: value});
+          selectors.bottom.push({selector: selector, value: value});
         }
       }
     },
@@ -251,7 +285,7 @@ var GeneratorCSS = function (files) {
      * generate ie*css strings from selectors and fix-strings
      * @private
      */
-    generate = function () {
+    generateCSS = function () {
       var processSingleFix = function (selectors, text) {
           var len = selectors.length,
             usedSelectors = {},
@@ -336,15 +370,12 @@ var GeneratorCSS = function (files) {
 
     run = function () {
       chooseSelectors();
-      generate();
+      generateCSS();
 
       // and new css rules to fix there the Cntt supported selectors
       files.css.push(new ParserCSS(ie6css));
       files.css.push(new ParserCSS(ie7css));
       files.css.push(new ParserCSS(ie8css));
-
-      // log('ie6:');
-      // log(ie6css);
     };
 
   this.getCode = function () {

@@ -28,14 +28,14 @@ var FileHandler = function () {
     },
 
     cutFileName = function (name) {
-      var width = 165, // width of <p> element
+      var width = 175, // width of <p> element
         charWidth = 8, // width of single letter
         fromEnd = 8,
         outLen = Math.floor(width / charWidth),
         len = name.length;
 
 
-      if(len < outLen) {
+      if (len < outLen) {
         return name;
       } else {
         return name.slice(0, outLen - 3 - fromEnd) + '...' + name.slice(-fromEnd);
@@ -121,7 +121,7 @@ var FileHandler = function () {
       return s.replace(/ src=/g, ' fake_src=')
         .replace(/ source=/g, ' fake_source=')
         .replace(/ data=/g, ' fake_data=')
-        .replace(/<link /, '<fake-link ');
+        .replace(/ href=/g, ' fake_href=');
     },
 
     /**

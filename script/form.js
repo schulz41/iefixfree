@@ -7,8 +7,6 @@
     form = $('custom-form'),
     input = $('file-input'),
     back = $('back'),
-    scriptTop = $('i10'),
-    scriptBottom = $('i11'),
     caption = $('files-caption'),
     inputs = $('input'),
 
@@ -69,14 +67,6 @@
     back.setAttribute('disabled');
     //caption.style.visibility = 'visible';
     caption.style.opacity = 1;
-  });
-
-  scriptTop.addEventListener('click', function () {
-    scriptBottom.checked = false;
-  });
-
-  scriptBottom.addEventListener('click', function () {
-    scriptTop.checked = false;;
   });
 
   initHelps();
