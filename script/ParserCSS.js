@@ -41,6 +41,7 @@ var ParserCSS = function (code, isInline) {
     readRule = function () {
       // index pointed on the first char of selector
       var selectors = '',
+        insideString = false, // if inside of 'content' or url
         properties = [],
         value = '',
         name = '',
@@ -48,36 +49,39 @@ var ParserCSS = function (code, isInline) {
         len,
         i;
 
-      // if it's isInline style then there's no selectors
-      if (!isInline) {
-        // read all selectors
-        while (!eof() && c !== '{') {
-          selectors += c;
-          c = curr();
-          index++;
-        }
+      // read all selectors
+      while (!eof() && c !== '{') {
+        selectors += c;
+        c = curr();
+        index++;
+      }
 
-        // for every selector make a special rule
-        selectors = selectors.split(',');
-        len = selectors.length;
-        for (i = 0; i < len; i++) {
-          selectors[i] = trim(selectors[i]);
-        }
+      // for every selector make a special rule
+      selectors = selectors.split(',');
+      len = selectors.length;
+      for (i = 0; i < len; i++) {
+        selectors[i] = trim(selectors[i]);
+      }
 
-        if (eof()) {
-          error('selectors');
-        }
+      if (eof()) {
+        error('selectors');
       }
 
       // read properties
-      while (!eof() && c !== '}') {
+      while (!eof() && (c !== '}' || insideString)) {
         // read name
         name = '';
         c = '';
+        // check '}' to trace empty rules
+        // otherwise await for colon
         while (!eof() && c !== ':' && c !== '}') {
           name += c;
           c = curr();
           index++;
+
+          if (c === '\'' || c === '"') {
+            insideString = !insideString;
+          }
         }
 
         if (eof() && c !== '}') {
@@ -89,10 +93,17 @@ var ParserCSS = function (code, isInline) {
         // read value
         value = '';
         c = '';
-        while (!eof() && c !== ';' && c !== '}') {
+        // check '}' to trace empty rules
+        // if insideString then continue
+        // otherwise await for semicolon
+        while (!eof() && (c !== ';' && c !== '}' || insideString)) {
           value += c;
           c = curr();
           index++;
+
+          if (c === '\'' || c === '"') {
+            insideString = !insideString;
+          }
         }
 
         if (eof() && c !== '}') {
@@ -134,14 +145,19 @@ var ParserCSS = function (code, isInline) {
 
     skipAtRule = function () {
       // index pointed to the '@' symbol
-      var c,
+      var insideString = false,
+        c,
         depth;
 
       // reading whole @import-rule or first part of (@media or @font-face)
       do {
         c = curr();
         index++;
-      } while (!eof() && c !== ';' && c !== '{');
+
+        if (c === '\'' || c === '"') {
+          insideString = !insideString;
+        }
+      } while (!eof() && (c !== ';' && c !== '{' || insideString));
 
       if (eof()) {
         if (c !== ';' && c !== '{') {
@@ -163,15 +179,19 @@ var ParserCSS = function (code, isInline) {
         depth = 1; // count of start brackets
         while (!eof() && depth !== 0) {
           c = curr();
-          if (c === '{') {
+          if (c === '{' && !insideString) {
             depth++;
-          } else if (c === '}') {
+          } else if (c === '}' && !insideString) {
             if (depth <= 0) {
               error();
             }
             depth--;
           }
           index++;
+
+          if (c === '\'' || c === '"') {
+            insideString = !insideString;
+          }
         }
 
         if (eof()) {
