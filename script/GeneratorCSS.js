@@ -7,8 +7,8 @@ var GeneratorCSS = function (files) {
 
   // contains css code for each browser
   var ie6css = '',
-    ie7css  = '',
-    ie8css  = '',
+    ie7css   = '',
+    ie8css   = '',
 
     // contains the css selectors of elements that need fixes
     selectors = {
@@ -274,7 +274,7 @@ var GeneratorCSS = function (files) {
         var selector,
           value,
           p;
-        
+
         // for each property
         for (p in rule.properties) {
           if (rule.properties.hasOwnProperty(p)) {
