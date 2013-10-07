@@ -182,6 +182,7 @@ var GeneratorCSS = function (files) {
           selectors.display.push(selector);
         }
       },
+
       'float': function (value, selector) {
         // 'innerFloatLeft' or 'innerFloatRight', if has float
         var s;
@@ -193,11 +194,13 @@ var GeneratorCSS = function (files) {
           selectors.float.push(selector);
         }
       },
+
       'text-align': function (value, selector) {
         if (value === 'justify') {
           selectors.textAlign.push(selector);
         }
       },
+
       'height': function (value, selector) {
         if (!parseInt(value, 10)) {
           selectors.smallHeight.push(selector);
@@ -205,61 +208,67 @@ var GeneratorCSS = function (files) {
           selectors.height.push(selector);
         }
       },
+
       'min-height': function (value, selector) {
         selectors.minHeight.push({selector: selector, value: value});
       },
+
       'cursor': function (value, selector) {
         if (value === 'pointer') {
           selectors.cursor.push(selector);
         }
       },
+
       'position': function (value, selector) {
         if (value === 'fixed') {
           selectors.position.push(selector);
         }
       },
+
       'overflow': function (value, selector) {
         if (value === 'hidden') {
           addParents(selector, 'overflow');
         }
       },
+
       'opacity': function (value, selector) {
         if (value !== 1) {
           selectors.opacity.push({selector: selector, value: value * 100});
         }
       },
+
       'color': function (value, selector) {
         if (value.slice(0, 4) === 'rgba') {
           selectors.color.push({selector: selector, value: rgba2hex(value)});
         }
       },
+
       'top': function (value, selector) {
-        //value = Math.floor(parseInt(value, 10) / 2);
-        value = Math.floor(parseInt(value, 10));
+        value = Math.floor(parseInt(value, 10) / 2);
 
         if (value < 0) {
           selectors.top.push({selector: selector, value: value});
         }
       },
+
       'left': function (value, selector) {
-        //value = Math.floor(parseInt(value, 10) / 2);
-        value = Math.floor(parseInt(value, 10));
+        value = Math.floor(parseInt(value, 10) / 2);
 
         if (value < 0) {
           selectors.left.push({selector: selector, value: value});
         }
       },
+
       'right': function (value, selector) {
-        //value = Math.floor(parseInt(value, 10) / 2);
-        value = Math.floor(parseInt(value, 10));
+        value = Math.floor(parseInt(value, 10) / 2);
 
         if (value < 0) {
           selectors.right.push({selector: selector, value: value});
         }
       },
+      
       'bottom': function (value, selector) {
-        //value = Math.floor(parseInt(value, 10) / 2);
-        value = Math.floor(parseInt(value, 10));
+        value = Math.floor(parseInt(value, 10) / 2);
 
         if (value < 0) {
           selectors.bottom.push({selector: selector, value: value});
@@ -378,7 +387,7 @@ var GeneratorCSS = function (files) {
           'overflow':        ' {\n  position: relative;\n}\n\n',
           'opacity':         ' {\n  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=%value%);\n  zoom: 1;\n}\n',
           'color':           ' {\n  background: transparent;\n  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=%value%, endColorstr=%value%);\n}\n\n',
-          'top':             ' {\n  margin-top: %value%px;\n  top: 0;\n}\n\n',
+          'top':             ' {\n  margin-top: %value%px;\n}\n\n',
           'left':            ' {\n  margin-left: %value%px;\n}\n\n',
           'right':           ' {\n  margin-right: %value%px;\n}\n\n',
           'bottom':          ' {\n  margin-bottom: %value%px;\n}\n\n'
