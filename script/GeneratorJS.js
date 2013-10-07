@@ -70,14 +70,14 @@ var GeneratorJS = function (files) {
               } else if (s.indexOf(':' + selector) !== -1) {
                 rulesIE6[selector].push(rule);
               }
+            }
+          }
 
-              // for each type of selectors
-              for (selector in rules) {
-                if (rules.hasOwnProperty(selector)) {
-                  if (s.indexOf(':' + selector) !== -1) {
-                    rules[selector].push(rule);
-                  }
-                }
+          // for each type of selectors
+          for (selector in rules) {
+            if (rules.hasOwnProperty(selector)) {
+              if (s.indexOf(':' + selector) !== -1) {
+                rules[selector].push(rule);
               }
             }
           }
