@@ -30,12 +30,10 @@ var GeneratorJS = function (files) {
 
     // for ie6 only
     rulesIE6 = {
-      'after':          [],
-      'before':         [],
       'attr':           [],
-      'child':          [], // >
-      'adjacent':       [], // ~
-      'sibling':        []  // +
+      '>':              [], // child
+      '~':              [], // adjacent
+      '+':              []  // sibling
     },
 
     // contains pairs 'actual-selector': 'generated-class'.
@@ -55,6 +53,11 @@ var GeneratorJS = function (files) {
         css.rules.forEach(function (rule) {
           var selector,
             s = rule.selector;
+
+          if (s.indexOf(':hover') !== -1 ||
+          		s.indexOf(':active') !== -1) {
+          	return;
+          }
 
           // for each type of selectors ie6
           for (selector in rulesIE6) {
@@ -103,7 +106,7 @@ var GeneratorJS = function (files) {
             pairsIE6[s] = newClass;
           }
 
-          ie6css += 'iefixfree-' + generatedClassesCount;
+          ie6css += '.' + newClass;
           ie6css += ' {\n';
 
           for (prop in rule.properties) {
@@ -124,7 +127,7 @@ var GeneratorJS = function (files) {
           // add it to the to the js code
           pairs[rule.selector] = newClass;
           // add the rule to the css
-          css += newClass;
+          css += '.' + newClass;
           css += ' {\n';
           for (prop in rule.properties) {
             if (rule.properties.hasOwnProperty(prop)) {
@@ -185,8 +188,8 @@ var GeneratorJS = function (files) {
 
       ie6js += js;
 
-      js += 'var polyfill = ' + polyfill + ';\npolyfill();\n\n';
-      ie6js += 'var polyfill = ' + polyfill + ';\npolyfill();\n\n';
+      js = 'var polyfill = ' + polyfill + ';\npolyfill();\n\n' + js;
+      ie6js = 'var polyfill = ' + polyfill + ';\npolyfill();\n\n' + ie6js;
     },
 
     /**

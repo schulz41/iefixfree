@@ -22,7 +22,7 @@ setClasses = function () {
   }
 },
 
-setIEClasses = function () {
+setIE6Classes = function () {
   var selector,
     nodes,
     len,

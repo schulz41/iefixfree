@@ -234,28 +234,32 @@ var GeneratorCSS = function (files) {
         }
       },
       'top': function (value, selector) {
-        value = parseInt(value, 10);
+        //value = Math.floor(parseInt(value, 10) / 2);
+        value = Math.floor(parseInt(value, 10));
 
         if (value < 0) {
           selectors.top.push({selector: selector, value: value});
         }
       },
       'left': function (value, selector) {
-        value = parseInt(value, 10);
+        //value = Math.floor(parseInt(value, 10) / 2);
+        value = Math.floor(parseInt(value, 10));
 
         if (value < 0) {
           selectors.left.push({selector: selector, value: value});
         }
       },
       'right': function (value, selector) {
-        value = parseInt(value, 10);
+        //value = Math.floor(parseInt(value, 10) / 2);
+        value = Math.floor(parseInt(value, 10));
 
         if (value < 0) {
           selectors.right.push({selector: selector, value: value});
         }
       },
       'bottom': function (value, selector) {
-        value = parseInt(value, 10);
+        //value = Math.floor(parseInt(value, 10) / 2);
+        value = Math.floor(parseInt(value, 10));
 
         if (value < 0) {
           selectors.bottom.push({selector: selector, value: value});
@@ -374,7 +378,7 @@ var GeneratorCSS = function (files) {
           'overflow':        ' {\n  position: relative;\n}\n\n',
           'opacity':         ' {\n  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=%value%);\n  zoom: 1;\n}\n',
           'color':           ' {\n  background: transparent;\n  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=%value%, endColorstr=%value%);\n}\n\n',
-          'top':             ' {\n  margin-top: %value%px;\n}\n\n',
+          'top':             ' {\n  margin-top: %value%px;\n  top: 0;\n}\n\n',
           'left':            ' {\n  margin-left: %value%px;\n}\n\n',
           'right':           ' {\n  margin-right: %value%px;\n}\n\n',
           'bottom':          ' {\n  margin-bottom: %value%px;\n}\n\n'
