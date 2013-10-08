@@ -24,18 +24,14 @@ var GeneratorCSS = function (files) {
       'position':        [],
       'overflow':        [],
       'opacity':         [],
-      'color':           [],
-      'top':             [],
-      'right':           [],
-      'left':            [],
-      'bottom':          []
+      'color':           []
     },
 
     /**
      * @private
      * @param selector selector of elements whose parents are searched
      * @param which bug is fixed
-     * @param filter selector to compare
+     * @param filter element to find
      */
     addParents = function (selector, which, filter) {
       /**
@@ -44,7 +40,7 @@ var GeneratorCSS = function (files) {
        */
       var matches = function (s) {
           // just check element
-          return s.split(' ').pop() === filter;
+          return s.split('>').pop() === filter;
         };
 
       // for each .html document, if any
@@ -54,7 +50,7 @@ var GeneratorCSS = function (files) {
 
         // get all elements that mathed
         elements = html.querySelectorAll(selector);
-        if (!elements) {
+        if (!elements.length) {
           return;
         }
 
@@ -65,6 +61,7 @@ var GeneratorCSS = function (files) {
           if (usedSelectors[s]) {
             return;
           }
+
           usedSelectors[s] = 1;
           // add new selector
           if (!filter || matches(s)) {
@@ -113,7 +110,7 @@ var GeneratorCSS = function (files) {
      */
     hasContentOutside = function (selector) {
       // all elements that match
-      var parents = document.querySelectorAll(selector),
+      var parents = files.html[0].querySelectorAll(selector),
         parLen = parents.length,
         parCnt,
         eLen,
@@ -241,38 +238,6 @@ var GeneratorCSS = function (files) {
         if (value.slice(0, 4) === 'rgba') {
           selectors.color.push({selector: selector, value: rgba2hex(value)});
         }
-      },
-
-      'top': function (value, selector) {
-        value = Math.floor(parseInt(value, 10) / 2);
-
-        if (value < 0) {
-          selectors.top.push({selector: selector, value: value});
-        }
-      },
-
-      'left': function (value, selector) {
-        value = Math.floor(parseInt(value, 10) / 2);
-
-        if (value < 0) {
-          selectors.left.push({selector: selector, value: value});
-        }
-      },
-
-      'right': function (value, selector) {
-        value = Math.floor(parseInt(value, 10) / 2);
-
-        if (value < 0) {
-          selectors.right.push({selector: selector, value: value});
-        }
-      },
-      
-      'bottom': function (value, selector) {
-        value = Math.floor(parseInt(value, 10) / 2);
-
-        if (value < 0) {
-          selectors.bottom.push({selector: selector, value: value});
-        }
       }
     },
 
@@ -280,7 +245,6 @@ var GeneratorCSS = function (files) {
      * @private
      * @param css ParserCSS object
      */
-
     processSingleFile = function (css) {
       // for each Rule in the css file
       css.rules.forEach(function (rule) {
@@ -386,11 +350,7 @@ var GeneratorCSS = function (files) {
           'position':        ' {\n  position: absolute;\n  top: expression(parseInt(document.body.scrollTop, 10) + "px");\n}\n\n',
           'overflow':        ' {\n  position: relative;\n}\n\n',
           'opacity':         ' {\n  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=%value%);\n  zoom: 1;\n}\n',
-          'color':           ' {\n  background: transparent;\n  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=%value%, endColorstr=%value%);\n}\n\n',
-          'top':             ' {\n  margin-top: %value%px;\n}\n\n',
-          'left':            ' {\n  margin-left: %value%px;\n}\n\n',
-          'right':           ' {\n  margin-right: %value%px;\n}\n\n',
-          'bottom':          ' {\n  margin-bottom: %value%px;\n}\n\n'
+          'color':           ' {\n  background: transparent;\n  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=%value%, endColorstr=%value%);\n}\n\n'
         },
 
         buffer,

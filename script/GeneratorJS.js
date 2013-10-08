@@ -188,8 +188,12 @@ var GeneratorJS = function (files) {
 
       ie6js += js;
 
-      js = 'var polyfill = ' + polyfill + ';\npolyfill();\n\n' + js;
-      ie6js = 'var polyfill = ' + polyfill + ';\npolyfill();\n\n' + ie6js;
+      if (js.length) {
+      	js = 'var polyfill = ' + polyfill + ';\npolyfill();\n\n' + js;
+    	}
+    	if (ie6js.length) {
+      	ie6js = 'var polyfill = ' + polyfill + ';\npolyfill();\n\n' + ie6js;
+    	}
     },
 
     /**
